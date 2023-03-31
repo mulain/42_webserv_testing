@@ -1,0 +1,7 @@
+#ackchual files
+*.o
+*.a
+/obj
+
+a.out
+webservtest
