@@ -34,9 +34,9 @@ bool Socket::bind(const std::string& ipAddress, int port)
 	sockaddr_in		address;
 
 	address.sin_family = AF_INET;
-	address.sin_addr = inet_addr(ipAddress.c_str());
+	address.sin_addr.s_addr = inet_addr(ipAddress.c_str());
 	address.sin_port = htons(port);
-	if (::bind(_sock, &address, sizeof(address)) == -1)
+	if (::bind(_sock, (sockaddr*)&address, sizeof(address)) == -1)
 		return perror(E_SOCK_BIND), false;
 	return true;
 }
