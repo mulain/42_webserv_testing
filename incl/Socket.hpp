@@ -5,11 +5,16 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
+#include <unistd.h>
 
+#define BUFFERSIZE		1024
 #define E_SOCK_CREATE	"Could not create socket."
 #define E_SOCK_BIND		"Could not bind address to socket."
 #define E_SOCK_LISTEN	"Could not listen for connection on socket."
 #define E_SOCK_ACCEPT	"Could not accept connection on socket."
+#define E_SOCK_CONNECT	"Could not connect to remote socket."
+#define E_SOCK_SEND		"Could not send over socket."
+#define E_SOCK_RECEIVE	"Could not receive from socket."
 
 class Socket
 {
@@ -30,7 +35,7 @@ class Socket
 		void close();
 	
 	private:
-		int	_sock
+		int	_sock;
 };
 
 #endif
