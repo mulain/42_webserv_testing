@@ -66,12 +66,22 @@ bool Socket::listen(int backlog)
 	return true;
 }
 
-bool Socket::accept(Socket& newSocket)
+bool Socket::accept()
+{
+	socklen_t		len = sizeof(_address);
+	//WRONG. this needs 2 fds: one from the listenting socket (goes into accept) and then the returned new fd for the new accepted socekt
+	_socketfd = ::accept(_socketfd, (sockaddr*)&_address, &len);
+	if (_socketfd == -1)
+		return perror(E_SOCK_ACCEPT), false;
+	return true;
+}
+
+bool Socket::accept(int listeningFd)
 {
 	socklen_t		len = sizeof(_address);
 
-	newSocket._socketfd = ::accept(_socketfd, (sockaddr*)&_address, &len);
-	if (newSocket._socketfd == -1)
+	_socketfd = ::accept(listeningFd, (sockaddr*)&_address, &len);
+	if (_socketfd == -1)
 		return perror(E_SOCK_ACCEPT), false;
 	return true;
 }
@@ -110,4 +120,9 @@ void Socket::close()
 	if (_socketfd != -1)
 		::close(_socketfd);
 	_socketfd = -1;
+}
+
+int Socket::getSocketFd()
+{
+	return _socketfd;
 }

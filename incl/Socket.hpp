@@ -9,13 +9,13 @@
 #include <stdio.h>
 
 #define BUFFERSIZE		1024
-#define E_SOCK_CREATE	"Could not create socket."
-#define E_SOCK_BIND		"Could not bind address to socket."
-#define E_SOCK_LISTEN	"Could not listen for connection on socket."
-#define E_SOCK_ACCEPT	"Could not accept connection on socket."
-#define E_SOCK_CONNECT	"Could not connect to remote socket."
-#define E_SOCK_SEND		"Could not send over socket."
-#define E_SOCK_RECEIVE	"Could not receive from socket."
+#define E_SOCK_CREATE	"Could not create socket"
+#define E_SOCK_BIND		"Could not bind address to socket"
+#define E_SOCK_LISTEN	"Could not listen for connection on socket"
+#define E_SOCK_ACCEPT	"Could not accept connection on socket"
+#define E_SOCK_CONNECT	"Could not connect to remote socket"
+#define E_SOCK_SEND		"Could not send over socket"
+#define E_SOCK_RECEIVE	"Could not receive from socket"
 
 class Socket
 {
@@ -27,15 +27,17 @@ class Socket
 
 		Socket& operator=(const Socket&);
 
-		bool create(int);
-		bool bind(const std::string&, int); //takes unprocessed input
-		bool bind(in_addr_t, uint16_t); //overload for already processed input
-		bool listen(int);
-		bool accept(Socket&);
-		bool connect(const std::string&, int);
-		bool send(const std::string&);
-		bool receive(std::string&);
-		void close();
+		bool	create(int);
+		bool	bind(const std::string&, int); //takes unprocessed input
+		bool	bind(in_addr_t, uint16_t); //overload for already processed input
+		bool	listen(int);
+		bool	accept();
+		bool	accept(int);
+		bool	connect(const std::string&, int);
+		bool	send(const std::string&);
+		bool	receive(std::string&);
+		void	close();
+		int		getSocketFd();
 	
 	private:
 		int				_socketfd;

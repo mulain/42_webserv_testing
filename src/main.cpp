@@ -1,5 +1,5 @@
-#include "Server.hpp"
-#include "Socket.hpp"
+#include "../incl/Server.hpp"
+#include "../incl/Socket.hpp"
 
 /* int	main(int argc, char **argv)
 {
@@ -32,7 +32,7 @@
 #include <stdlib.h>
 #include <cstring>
 
-int main(int argc, char const *argv[])
+/* int main(int argc, char const *argv[])
 {
     int server_fd, new_socket;
 	long valread;
@@ -87,4 +87,22 @@ int main(int argc, char const *argv[])
         close(new_socket);
     }
     return 0;
+} */
+
+int main()
+{
+	Socket	new_socket;
+	Server	servster;
+
+	while (1)
+	{
+		printf("\n+++++++ Waiting for new connection ++++++++\n\n");
+		int newConnFd = servster.acceptConnection();
+		char buffer[30000] = {0};
+		read(newConnFd, buffer, 30000);
+		printf("%s\n",buffer );
+		write(newConnFd, "HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: 5\r\n\r\nhello" , strlen("hello"));
+		printf("------------------Hello message sent-------------------\n");
+
+	}
 }

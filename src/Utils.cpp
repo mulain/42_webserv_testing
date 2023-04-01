@@ -9,7 +9,6 @@ Utils::~Utils(void)
 {}
 
 // Public member functions
-
 std::string Utils::splitEraseStr(std::string& input, std::string target)
 {
 	std::string element;

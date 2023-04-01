@@ -47,6 +47,7 @@ public:
     bool accept(Socket& newSocket) {
         sockaddr_in address;
         socklen_t len = sizeof(address);
+		
         int newSock = ::accept(m_sock, (sockaddr*)&address, &len);
         if (newSock == -1) {
             perror("Error accepting connection");

@@ -6,6 +6,7 @@ Server::Server(void)
 {
 	_ipAddress = inet_addr("127.0.0.1");
 	_port = htons(3000);
+	_backlog = 10;
 	listen();
 }
 
@@ -25,10 +26,26 @@ Server& Server::operator=(const Server& src)
 }
 
 // Public member functions
-
 bool Server::listen()
 {
 	_listeningSocket.bind(_ipAddress, _port);
+	_listeningSocket.listen(_backlog);
+	return true; //just for now. prolly change all bools to throws ?
+}
+
+Socket& Server::newSocket()
+{
+	Socket	new_socket;
+
+	_connections.push_back(new_socket);
+	return _connections.back();
+}
+
+int Server::acceptConnection()
+{
+	Socket& newSock = newSocket();
+	newSock.accept(_listeningSocket.getSocketFd());
+	return newSock.getSocketFd();
 }
 
 void Server::printRequest() const

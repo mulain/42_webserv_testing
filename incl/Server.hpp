@@ -9,9 +9,6 @@
 #include "Utils.hpp"
 #include "Socket.hpp"
 
-typedef std::map<std::string, std::string>::const_iterator StringMap_it;
-typedef std::map<std::string, std::string> StringMap;
-
 typedef struct HTTPrequest
 {
 	std::string		Method;
@@ -27,7 +24,7 @@ needed functions:
 - build server function that parses the config file 
 	- should be part of the constructor. prolly take argv1 as arg and then parse and build
 		from there
-Server hard coded for now to 127.0.0.1:3000
+Server hard coded for now to 127.0.0.1:3000 with backlog of 10.
 
 
 thoughts
@@ -45,19 +42,22 @@ class Server
 		Server& operator=(const Server&);
 
 		// Actions
-		bool listen();
+		bool	listen();
+		Socket&	newSocket();
+		int		acceptConnection(); //adds a new socket and accepts connection on dat mofo
 		
+		//Crap, move this elsewhere / integrate in ackchual function
 		void parseRequest(std::string);
 		void printRequest() const;
-
-		// Getters
 		HTTPrequest getRequest() const;
 	
 	private:		
-		in_addr_t		_ipAddress;
-		uint16_t		_port;
-		Socket			_listeningSocket;
-
+		in_addr_t			_ipAddress;
+		uint16_t			_port;
+		size_t				_backlog;
+		Socket				_listeningSocket; //only ever have the one
+		std::vector<Socket>	_connections; //have as many as needed / up to a max maybe
+		
 		//prolly shite:
 		HTTPrequest		_request;
 
