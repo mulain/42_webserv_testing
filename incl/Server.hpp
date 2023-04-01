@@ -5,9 +5,17 @@
 #include <map>
 #include <vector>
 #include <arpa/inet.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <poll.h>
+#include <cstring>
 
 #include "Utils.hpp"
 #include "Socket.hpp"
+
+#define MAXCONNECTS		32
+#define BUFFERSIZE		1024
+#define E_NUM_CONNECTS	"Maximum number of connections reached.\n"
 
 typedef struct HTTPrequest
 {
@@ -45,6 +53,7 @@ class Server
 		bool	listen();
 		Socket&	newSocket();
 		int		acceptConnection(); //adds a new socket and accepts connection on dat mofo
+		bool	poll();
 		
 		//Crap, move this elsewhere / integrate in ackchual function
 		void parseRequest(std::string);
@@ -57,6 +66,7 @@ class Server
 		size_t				_backlog;
 		Socket				_listeningSocket; //only ever have the one
 		std::vector<Socket>	_connections; //have as many as needed / up to a max maybe
+		pollfd				_pollStructs[MAXCONNECTS];
 		
 		//prolly shite:
 		HTTPrequest		_request;

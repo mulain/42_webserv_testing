@@ -1,0 +1,66 @@
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
+#include <poll.h>
+
+#define MAX_CONNECTIONS 10
+
+int main() {
+    // Create a socket
+    int server_fd = socket(AF_INET, SOCK_STREAM, 0);
+
+    // Set up the server address
+    struct sockaddr_in server_addr;
+    server_addr.sin_family = AF_INET;
+    server_addr.sin_addr.s_addr = INADDR_ANY;
+    server_addr.sin_port = htons(8080);
+
+    // Bind the socket to the server address
+    bind(server_fd, (struct sockaddr*)&server_addr, sizeof(server_addr));
+
+    // Listen for incoming connections
+    listen(server_fd, MAX_CONNECTIONS);
+
+    // Set up the pollfd structure
+    struct pollfd poll_fds[MAX_CONNECTIONS + 1];
+    poll_fds[0].fd = server_fd;
+    poll_fds[0].events = POLLIN;
+    for (int i = 1; i < MAX_CONNECTIONS + 1; i++) {
+        poll_fds[i].fd = -1;
+    }
+
+    // Wait for incoming connections or data
+    while (true) {
+        poll(poll_fds, MAX_CONNECTIONS + 1, -1);
+
+        // Handle new connections
+        if (poll_fds[0].revents & POLLIN) {
+            int new_fd = accept(server_fd, NULL, NULL);
+            for (int i = 1; i < MAX_CONNECTIONS + 1; i++) {
+                if (poll_fds[i].fd == -1) {
+                    poll_fds[i].fd = new_fd;
+                    poll_fds[i].events = POLLIN;
+                    break;
+                }
+            }
+        }
+
+        // Handle incoming data
+        for (int i = 1; i < MAX_CONNECTIONS + 1; i++) {
+            if (poll_fds[i].fd != -1 && poll_fds[i].revents & POLLIN) {
+                char buffer[1024];
+                int num_bytes = recv(poll_fds[i].fd, buffer, sizeof(buffer), 0);
+                if (num_bytes == 0) {
+                    // Connection closed
+                    close(poll_fds[i].fd);
+                    poll_fds[i].fd = -1;
+                } else {
+                    // Handle request
+                    // ...
+                }
+            }
+        }
+    }
+
+    return 0;
+}
