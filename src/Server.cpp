@@ -39,6 +39,7 @@ Socket& Server::newSocket()
 	Socket	new_socket;
 
 	_connections.push_back(new_socket);
+	std::cout << "Number of sockets: " << _connections.size() << std::endl;
 	return _connections.back();
 }
 
