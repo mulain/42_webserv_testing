@@ -6,7 +6,7 @@
 #    By: wmardin <wmardin@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/28 14:41:05 by wmardin           #+#    #+#              #
-#    Updated: 2023/03/30 17:30:04 by wmardin          ###   ########.fr        #
+#    Updated: 2023/04/01 10:06:03 by wmardin          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,7 @@ RM		=	rm -rf
 COLOR	=	\033[30m
 RESET	=	\033[0m
 
-SRCFILE	=	main.cpp Server.cpp Socket.cpp
+SRCFILE	=	main.cpp Server.cpp Socket.cpp Utils.cpp
 SRC		=	$(addprefix src/, $(SRCFILE))
 OBJ		= 	$(addprefix obj/, $(SRCFILE:%.c=%.o))
 

@@ -4,6 +4,9 @@
 #include <iostream>
 #include <map>
 #include <vector>
+#include <arpa/inet.h>
+
+#include <Utils.hpp>
 
 typedef std::map<std::string, std::string>::const_iterator StringMap_it;
 typedef std::map<std::string, std::string> StringMap;
@@ -17,6 +20,12 @@ typedef struct HTTPrequest
 	std::string		Body;
 }	HTTPrequest;
 
+
+/*
+needed functions:
+- build server function that parses the config file 
+	- should be part of the constructor. prolly take argv1 as arg 
+*/
 class Server
 {
 	public:
@@ -27,6 +36,8 @@ class Server
 		Server& operator=(const Server&);
 
 		// Actions
+		bool listen();
+		
 		void parseRequest(std::string);
 		void printRequest() const;
 
@@ -35,10 +46,15 @@ class Server
 	
 	private:
 		// Utils
-		std::string		splitEraseStr(std::string&, std::string);
-		StringMap		splitEraseStrMap(std::string&, std::string, std::string, char);
+		
 
+		
+		in_addr_t		_ipAddress;
+		uint16_t		_port;
+
+		//prolly shite:
 		HTTPrequest		_request;
+
 };
 
 #endif

@@ -3,7 +3,10 @@
 
 // Constructors and destructors
 Server::Server(void)
-{}
+{
+	_ipAddress = inet_addr("127.0.0.1");
+	_port = htons(3000);
+}
 
 Server::~Server(void)
 {}
@@ -22,7 +25,7 @@ Server& Server::operator=(const Server& src)
 
 // UTILS
 
-std::string Server::splitEraseStr(std::string& input, std::string target)
+/* std::string Server::splitEraseStr(std::string& input, std::string target)
 {
 	std::string element;
 	size_t len;
@@ -44,9 +47,9 @@ StringMap Server::splitEraseStrMap(std::string& input, std::string endOfKey, std
 		stringMap.insert(std::make_pair(key, value));
 	}
 	return stringMap;
-}
+} */
 
-// ACTIONS
+// Public member functions
 
 void Server::printRequest() const
 {
@@ -66,12 +69,12 @@ void Server::parseRequest(std::string requestString)
 	requestString.erase(0, requestString.find_first_not_of(" \t\v"));
 
 	// parse request line
-	_request.Method = splitEraseStr(requestString, " ");	
-	_request.URI = splitEraseStr(requestString, " ");
-	_request.HTTPversion = splitEraseStr(requestString, "\r\n");
+	_request.Method = Utils::splitEraseStr(requestString, " ");	
+	_request.URI = Utils::splitEraseStr(requestString, " ");
+	_request.HTTPversion = Utils::splitEraseStr(requestString, "\r\n");
 
 	// parse headers
-	_request.Headers = splitEraseStrMap(requestString, ": ", "\n", '\n');
+	_request.Headers = Utils::splitEraseStrMap(requestString, ": ", "\n", '\n');
 
 	// parse body (which is just what remains of the input minus the preceding newline)
 	if (requestString[0] == '\n')

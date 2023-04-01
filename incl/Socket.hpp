@@ -6,6 +6,7 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #include <unistd.h>
+#include <stdio.h>
 
 #define BUFFERSIZE		1024
 #define E_SOCK_CREATE	"Could not create socket."
@@ -19,7 +20,8 @@
 class Socket
 {
 	public:
-		Socket(void);
+		Socket(void); //Default constructor will create TCP socket (SOCK_STREAM)
+		Socket(int);
 		~Socket(void);
 		Socket(const Socket&);
 
@@ -35,7 +37,8 @@ class Socket
 		void close();
 	
 	private:
-		int	_sock;
+		int				_socketfd;
+		sockaddr_in		_address;
 };
 
 #endif

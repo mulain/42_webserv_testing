@@ -1,4 +1,5 @@
-#include <Server.hpp>
+#include "Server.hpp"
+#include "Socket.hpp"
 
 /* int	main(int argc, char **argv)
 {
@@ -15,7 +16,7 @@
 }
  */
 
-int main (void)
+/* int main (void)
 {
 	
 	std::string requestString("POST /api/users HTTP/1.1\r\nHost: www.example.com\nUser-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.96 Safari/537.36\nContent-Type: application/json\nContent-Length: 44\nConnection: keep-alive\n\n{\"username}\": \"jdoe\", \"password\": \"password123\"}");
@@ -26,20 +27,25 @@ int main (void)
 	serverA.printRequest();
 	serverA.parseRequest(requestString);
 	serverA.printRequest();
-}
+} */
 
-/*
+#include <stdlib.h>
+#include <cstring>
+
 int main(int argc, char const *argv[])
 {
     int server_fd, new_socket;
 	long valread;
     struct sockaddr_in address;
     int addrlen = sizeof(address);
+
+	(void)argv;
+	(void)argc;
     
-    char *hello = "Hello from server";
+    const char *hello = "Hello from server";
     
     // Creating socket file descriptor
-    if ((server_fd = socket(AF_INET, SOCK_STREAM, 0)) == 0)
+    if ((server_fd = socket(AF_INET, SOCK_STREAM, 0)) == -1)
     {
         perror("In socket");
         exit(EXIT_FAILURE);
@@ -48,7 +54,7 @@ int main(int argc, char const *argv[])
 
     address.sin_family = AF_INET;
     address.sin_addr.s_addr = INADDR_ANY;
-    address.sin_port = htons( PORT );
+    address.sin_port = htons( 3000 );
     
     memset(address.sin_zero, '\0', sizeof address.sin_zero);
     
@@ -74,10 +80,11 @@ int main(int argc, char const *argv[])
         
         char buffer[30000] = {0};
         valread = read( new_socket , buffer, 30000);
+		(void)valread;
         printf("%s\n",buffer );
         write(new_socket , hello , strlen(hello));
         printf("------------------Hello message sent-------------------\n");
         close(new_socket);
     }
     return 0;
-	*/
+}
