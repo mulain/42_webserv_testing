@@ -49,6 +49,16 @@ bool Socket::bind(const std::string& ipAddress, int port)
 	return true;
 }
 
+bool Socket::bind(in_addr_t address, uint16_t port)
+{
+	_address.sin_family = AF_INET;
+	_address.sin_addr.s_addr = address;
+	_address.sin_port = port;
+	if (::bind(_socketfd, (sockaddr*)&_address, sizeof(_address)) == -1)
+		return perror(E_SOCK_BIND), false;
+	return true;
+}
+
 bool Socket::listen(int backlog)
 {
 	if (::listen(_socketfd, backlog) == -1)

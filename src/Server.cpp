@@ -6,6 +6,7 @@ Server::Server(void)
 {
 	_ipAddress = inet_addr("127.0.0.1");
 	_port = htons(3000);
+	listen();
 }
 
 Server::~Server(void)
@@ -23,33 +24,12 @@ Server& Server::operator=(const Server& src)
 	return *this;
 }
 
-// UTILS
-
-/* std::string Server::splitEraseStr(std::string& input, std::string target)
-{
-	std::string element;
-	size_t len;
-
-	element = input.substr(0, len = input.find(target));
-	input.erase(0, len + target.length());
-	return element;
-}
-
-StringMap Server::splitEraseStrMap(std::string& input, std::string endOfKey, std::string endOfValue, char endOfMap)
-{
-	StringMap stringMap;
-	std::string key, value;
-
-	while (!input.empty() && input[0] != endOfMap)
-	{
-		key = splitEraseStr(input, endOfKey);
-		value = splitEraseStr(input, endOfValue);
-		stringMap.insert(std::make_pair(key, value));
-	}
-	return stringMap;
-} */
-
 // Public member functions
+
+bool Server::listen()
+{
+	_listeningSocket.bind(_ipAddress, _port);
+}
 
 void Server::printRequest() const
 {
