@@ -36,9 +36,7 @@
 
 int main()
 {
-	Socket	new_socket;
 	Server	servster;
-
 
 	while (1)
 	{

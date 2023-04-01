@@ -8,7 +8,6 @@
 #include <unistd.h>
 #include <stdio.h>
 
-#define BUFFERSIZE		1024
 #define E_SOCK_CREATE	"Could not create socket"
 #define E_SOCK_BIND		"Could not bind address to socket"
 #define E_SOCK_LISTEN	"Could not listen for connection on socket"

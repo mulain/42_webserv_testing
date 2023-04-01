@@ -103,6 +103,13 @@ bool Socket::send(const std::string& data)
 	return true;
 }
 
+# define BUFFERSIZE 1024
+/*
+dont really want to keep this define. 
+at minimum, the server creating the socket should determine the size of the buffer
+probably tho the receive should not be a function of the socket at all but a function of the server
+that takes a socketfd as arg
+*/
 bool Socket::receive(std::string& data)
 {
 	char	buffer[BUFFERSIZE];

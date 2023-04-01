@@ -21,6 +21,7 @@ Server::Server(const Server& src)
 // Operator overloads
 Server& Server::operator=(const Server& src)
 {
+	//incomplete af
 	_request = src._request;
 	return *this;
 }
