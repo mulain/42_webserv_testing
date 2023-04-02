@@ -15,7 +15,7 @@
 
 #define MAXCONNECTS		32
 #define BUFFERSIZE		1024
-#define E_NUM_CONNECTS	"Maximum number of connections reached.\n"
+#define E_NUM_CONNECTS	"Maximum number of connections reached."
 
 typedef struct HTTPrequest
 {
@@ -53,7 +53,8 @@ class Server
 		bool	listen();
 		Socket&	newSocket();
 		int		acceptConnection(); //adds a new socket and accepts connection on dat mofo
-		bool	poll();
+		void	poll();
+		void	check_listeningSocket();
 		
 		//Crap, move this elsewhere / integrate in ackchual function
 		void parseRequest(std::string);

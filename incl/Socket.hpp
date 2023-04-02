@@ -30,7 +30,6 @@ class Socket
 		bool	bind(const std::string&, int); //takes unprocessed input
 		bool	bind(in_addr_t, uint16_t); //overload for already processed input
 		bool	listen(int);
-		bool	accept();
 		bool	accept(int);
 		bool	connect(const std::string&, int);
 		bool	send(const std::string&);

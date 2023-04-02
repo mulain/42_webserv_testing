@@ -43,7 +43,7 @@ Socket& Server::newSocket()
 	Socket	new_socket;
 
 	if (_connections.size() >= MAXCONNECTS)
-		std::cerr << E_NUM_CONNECTS << std::endl;
+		std::cerr << E_NUM_CONNECTS << std::endl; //throw 
 	_connections.push_back(new_socket);
 	std::cout << "Number of sockets: " << _connections.size() << std::endl;
 	return _connections.back();
@@ -57,30 +57,13 @@ int Server::acceptConnection()
 }
 
 #include <cstring>
-bool Server::poll()
+void Server::poll()
 {
 	::poll(_pollStructs, MAXCONNECTS + 1, -1); //Deal with timeout (3rd arg)
+	check_listeningSocket();
 	
-	// [0] is the listening socket's pollStruct. Handles new connections
-	if (_pollStructs[0].revents & POLLIN)
-	{
-		int newConnFd = acceptConnection();
-		const char *msg = "HTTP/1.1 200 OK\r\nContent-Type: html\r\nContent-Length: 104\r\n\r\n<!DOCTYPE html><html><head><title>Hello, world!</title></head><body><h1>Hello, world!</h1></body></html>";
-		write(newConnFd, msg, strlen(msg));
-		for (int i = 1; i < MAXCONNECTS + 1; i++)
-		{
-			if (_pollStructs[i].fd == -1)
-			{
-				_pollStructs[i].fd = newConnFd;
-				_pollStructs[i].events = POLLIN;
-				break;
-			}
-			if (i == MAXCONNECTS + 1)
-				std::cerr << E_NUM_CONNECTS;
-		}
-	}
 	// cycles thru all other pollstructs and evals those that have valid fds
-	for (int i =1; i < MAXCONNECTS + 1; i++)
+	for (size_t i = 1; i < MAXCONNECTS + 1; i++)
 	{
 		if (_pollStructs[i].fd == -1)
 			continue;
@@ -95,9 +78,39 @@ bool Server::poll()
 			}
 			else
 				write(1, buffer, num_bytes);
+				//handle request
 		}
 	}
-	return true;
+}
+
+/*
+_pollStructs[0] is the listening socket's poll struct
+*/
+void Server::check_listeningSocket()
+{
+	if (!(_pollStructs[0].revents & POLLIN)) //listening socket prolly only cares about POLLIN? Also have to configure the setup if change nevessary
+		return;
+	int newConnFd = acceptConnection();
+	
+	//send hello msg / acknowledge connection
+	const char *msg = "HTTP/1.1 200 OK\r\nContent-Type: html\r\nContent-Length: 104\r\n\r\n<!DOCTYPE html><html><head><title>Hello, world!</title></head><body><h1>Hello, world!</h1></body></html>";
+	write(newConnFd, msg, strlen(msg));
+	
+	//assign pollstruct
+	for (int i = 1; i < MAXCONNECTS + 1; i++)
+	{
+		if (_pollStructs[i].fd == -1)
+		{
+			_pollStructs[i].fd = newConnFd;
+			_pollStructs[i].events = POLLIN; //add other event types
+			break;
+		}
+		if (i == MAXCONNECTS + 1)
+		{
+			std::cerr << E_NUM_CONNECTS << std::endl;
+			//remove and close socket
+		}
+	}
 }
 
 void Server::printRequest() const
