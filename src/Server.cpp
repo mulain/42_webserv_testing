@@ -69,7 +69,7 @@ _pollStructs[0] is the listening socket's poll struct
 */
 void Server::check_listeningSocket()
 {
-	if (!(_pollStructs[0].revents & POLLIN)) //listening socket prolly only cares about POLLIN? Also have to configure the setup if change nevessary
+	if (!(_pollStructs[0].revents & POLLIN)) //what other events are important for listener? Also have to configure the setup if change nevessary
 		return;
 	int newConnFd = acceptConnection();
 	
@@ -96,35 +96,12 @@ void Server::check_listeningSocket()
 }
 
 /*
-POLLIN
-This event is triggered when there is data to read from the socket.
-This could be new incoming data from the client or a response from the server.
-
-POLLOUT
-This event is triggered when the socket is ready for writing.
-This could be used to indicate that the socket is ready to send data to the client.
-
-POLLPRI:
-This event is triggered when there is urgent data to read from the socket.
-This could be used to handle out-of-band data, such as TCP urgent data.
-
-POLLNVAL:
-This event is triggered when the file descriptor is not open or is not valid.
-This can happen if the socket has already been closed or if there was an error opening the socket.
-
-POLLERR:
-This event is triggered when there is an error with the socket, such as a
-transmission error or a protocol violation.
-
-POLLHUP:
-This event is triggered when the other end of the socket has been disconnected.
-This could happen if the client closes the connection, for example.
-
 POLLIN - socket has data to be read
 POLLOUT - socket is ready to write stuff to client
-POLLHUP - other end (client) hung up on our ass
-POLLERR - socketerr (transmission error or protocol violation)
+POLLPRI - urgent data to be read (so similar to POLLIN)
 POLLNVAL - socket fd is not open or some shit
+POLLERR - socketerr (transmission error or protocol violation)
+POLLHUP - other end (client) hung up on our ass
 */
 void Server::check_clientSockets()
 {
