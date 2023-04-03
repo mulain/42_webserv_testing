@@ -138,11 +138,7 @@ void Server::check_clientSockets()
 		
 		// poll struct got canceled / encountered an error
 		if (_pollStructs[i].revents & (POLLHUP | POLLERR | POLLNVAL))
-		{			
-			std::cout << "checkClients DESTROY event." << std::endl;
 			destroySocket(i);
-			//_pollStructs[i].fd = -1;
-		}
 
 		// poll struct detected incoming data
 		if (_pollStructs[i].revents & POLLIN) // other events!
@@ -150,10 +146,7 @@ void Server::check_clientSockets()
 			char buffer[BUFFERSIZE] = {0};
 			int num_bytes = recv(_pollStructs[i].fd, buffer, sizeof(buffer), 0);
 			if (!num_bytes)
-			{
 				destroySocket(_pollStructs[i].fd);
-				//_pollStructs[i].fd = -1;
-			}
 			else
 				std::cout << "checkClients POLLIN event." << std::endl;
 				//write(1, buffer, num_bytes);
