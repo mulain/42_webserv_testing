@@ -17,6 +17,9 @@
 #define BUFFERSIZE		1024
 #define E_NUM_CONNECTS	"Maximum number of connections reached."
 
+typedef std::vector<Socket>::const_iterator	SocketVec_it;
+
+
 typedef struct HTTPrequest
 {
 	std::string		Method;
@@ -55,7 +58,9 @@ class Server
 		int		acceptConnection(); //adds a new socket and accepts connection on dat mofo
 		void	poll();
 		void	check_listeningSocket();
-		
+		void	check_clientSockets();
+		void	destroySocket(size_t);
+
 		//Crap, move this elsewhere / integrate in ackchual function
 		void parseRequest(std::string);
 		void printRequest() const;

@@ -119,7 +119,7 @@ void Socket::close()
 	_socketfd = -1;
 }
 
-int Socket::getSocketFd()
+int Socket::getSocketFd() const
 {
 	return _socketfd;
 }

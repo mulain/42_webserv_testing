@@ -59,6 +59,6 @@ int main()
 	while (1)
 	{
 		servster.poll();
-		std::cout << "Number of connections: " << ++i << std::endl;
+		std::cout << "Number of polls: " << ++i << std::endl;
 	}
 }

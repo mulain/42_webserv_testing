@@ -35,7 +35,7 @@ class Socket
 		bool	send(const std::string&);
 		bool	receive(std::string&);
 		void	close();
-		int		getSocketFd();
+		int		getSocketFd() const;
 	
 	private:
 		int				_socketfd;
