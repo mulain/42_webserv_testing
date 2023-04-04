@@ -55,7 +55,7 @@ class Server
 		// Actions
 		bool	listen();
 		Socket&	newSocket();
-		int		acceptConnection(); //adds a new socket and accepts connection on dat mofo
+		int		acceptConnection(); //adds a new socket and accepts connection on it
 		void	poll();
 		void	check_listeningSocket();
 		void	check_clientSockets();
