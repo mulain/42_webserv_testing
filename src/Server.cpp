@@ -4,7 +4,7 @@
 // Constructors and destructors
 Server::Server(void)
 {
-	_ipAddress = inet_addr("10.12.12.58");
+	_ipAddress = inet_addr("10.12.11.50");
 	_port = htons(3000);
 	_backlog = 100;
 	for (int i = 1; i < MAXCONNECTS + 1; i++)
@@ -25,6 +25,12 @@ Server& Server::operator=(const Server& src)
 {
 	//incomplete af
 	_request = src._request;
+	for (size_t i = 0; i < MAXCONNECTS + 1; i++)
+	{
+		_pollStructs[i].fd = src._pollStructs[i].fd;
+		_pollStructs[i].events = src._pollStructs[i].events;
+		_pollStructs[i].revents = src._pollStructs[i].revents;
+	}
 	return *this;
 }
 

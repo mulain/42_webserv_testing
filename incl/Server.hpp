@@ -72,7 +72,7 @@ class Server
 		size_t				_backlog;
 		Socket				_listeningSocket; //only ever have the one
 		std::vector<Socket>	_connections; //have as many as needed / up to a max maybe
-		pollfd				_pollStructs[MAXCONNECTS];
+		pollfd				_pollStructs[MAXCONNECTS + 1];
 		
 		//prolly shite:
 		HTTPrequest		_request;
