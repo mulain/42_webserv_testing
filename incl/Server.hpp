@@ -67,9 +67,18 @@ class Server
 		HTTPrequest getRequest() const;
 	
 	private:		
+		std::string			_name;				
 		in_addr_t			_ipAddress;
 		uint16_t			_port;
+		size_t				_clientMaxBody;
+		std::string			_root;
+		std::string			_cgiDir;
+		std::string			_dir;
+		std::string			_uploadDir;
+		std::string			_HTTPversion;
+		std::string			_dirListing;
 		size_t				_backlog;
+		std::vector<std::string>	_methods;
 		Socket				_listeningSocket; //only ever have the one
 		std::vector<Socket>	_connections; //have as many as needed / up to a max maybe
 		pollfd				_pollStructs[MAXCONNECTS + 1];
