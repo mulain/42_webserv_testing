@@ -17,7 +17,7 @@
 #define BUFFERSIZE		1024
 #define E_NUM_CONNECTS	"Maximum number of connections reached."
 
-typedef std::vector<Socket>::const_iterator	SocketVec_it;
+typedef std::vector<Socket>::iterator	SocketVec_it;
 
 
 typedef struct HTTPrequest
@@ -70,7 +70,7 @@ class Server
 		std::string			_name;				
 		in_addr_t			_ipAddress;
 		uint16_t			_port;
-		size_t				_clientMaxBody;
+		//size_t				_clientMaxBody;
 		std::string			_root;
 		std::string			_cgiDir;
 		std::string			_dir;
