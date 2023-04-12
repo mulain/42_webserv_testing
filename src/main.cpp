@@ -1,5 +1,6 @@
 #include "../incl/Server.hpp"
 #include "../incl/Socket.hpp"
+#include "../incl/Config.hpp"
 
 /* int	main(int argc, char **argv)
 {
@@ -55,6 +56,8 @@ int main()
 {
 	Server	servster;
 	int i = 0;
+
+	Config::loadConfigFile("config/test.conf");
 	
 	while (1)
 	{

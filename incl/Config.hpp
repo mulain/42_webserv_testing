@@ -1,18 +1,18 @@
 #ifndef CONFIG_HPP
 #define CONFIG_HPP
 
+#include <fstream>
+
 #include "Config.hpp"
+#include "Server.hpp"
 
 class Config
 {
 	public:
 		Config(void);
 		~Config(void);
-		Config(const Config&);
-
-		Config& operator=(const Config&);
-
-		void loadConfigFile(std::string);
+	
+		static void loadConfigFile(std::string);
 		void parseConfigFile();
 	
 	private:		
