@@ -17,19 +17,34 @@ std::string trim(const std::string& input)
 	return input.substr(start, end - start + 1);
 }
 
+std::string split(const std::string& input)
+{
+	size_t colon = input.find(':');
+	if (colon == std::string::npos)
+		return "";
+	return input.substr(0, colon);
+}
+
 void Config::loadConfigFile(std::string path)
 {
 	std::ifstream	infile(path.c_str());
 	std::string		line;
+	std::string		key;
+	std::string		value;
 
 	if (!infile.is_open())
 		throw std::range_error("Could not open config file.");		
-	while (std::getline(infile, line))
+	while (std::getline(infile, line) && (line = trim(line)) != "<server>")
+		continue;
+	while (std::getline(infile, line) && (line =trim(line)) != "</server>")
 	{
-		line = trim(line);
-		if (line != "<server>")
-			continue;
-		std::cout << "kundel" << std::endl;
+		
+		key = Utils::splitEraseStr(line, ":");
+		value = trim(line);
+		
+		
+
+		std::cout << "key: " << key << " value: " << value << std::endl;
 		/* size_t delim = line.find(',');
 		if (delim == std::string::npos)
 			continue;

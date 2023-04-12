@@ -5,6 +5,7 @@
 
 #include "Config.hpp"
 #include "Server.hpp"
+#include "Utils.hpp"
 
 class Config
 {
