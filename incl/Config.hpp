@@ -7,6 +7,21 @@
 #include "Server.hpp"
 #include "Utils.hpp"
 
+#define SERVERNAME	"serverName";
+
+struct serverConfig //not needed, just directy populate the server
+{
+	std::string		_name;
+	in_addr_t		_host;
+	uint16_t		_port;
+	std::string		_errorPage;
+	size_t			_maxClientBodySize;
+	std::string		_directoryListing;
+	std::string		_root;
+	std::string		_dir;
+	std::string		_uploadDir;	
+};
+
 class Config
 {
 	public:
@@ -18,6 +33,7 @@ class Config
 	
 	private:		
 		std::vector<Server>	_servers;
+
 
 };
 

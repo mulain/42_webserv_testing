@@ -52,6 +52,11 @@ class Server
 
 		Server& operator=(const Server&);
 
+		// Setters
+		void setName(std::string);
+		void setHost(std::string);
+		void setPort(std::string);
+
 		// Actions
 		bool	listen();
 		Socket&	newSocket();
@@ -68,17 +73,20 @@ class Server
 	
 	private:		
 		std::string			_name;				
-		in_addr_t			_ipAddress;
+		in_addr_t			_host;
 		uint16_t			_port;
-		//size_t				_clientMaxBody;
+		std::string			_errorPage;
+		size_t				_clientMaxBody;
+		std::string			_dirListing;
 		std::string			_root;
 		std::string			_cgiDir;
 		std::string			_dir;
 		std::string			_uploadDir;
 		std::string			_HTTPversion;
-		std::string			_dirListing;
 		size_t				_backlog;
-		std::vector<std::string>	_methods;
+		bool				_GET;
+		bool				_POST;
+		bool				_DELETE;
 		Socket				_listeningSocket; //only ever have the one
 		std::vector<Socket>	_connections; //have as many as needed / up to a max maybe
 		pollfd				_pollStructs[MAXCONNECTS + 1];

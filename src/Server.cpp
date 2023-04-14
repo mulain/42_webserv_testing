@@ -4,7 +4,7 @@
 // Constructors and destructors
 Server::Server(void)
 {
-	_ipAddress = inet_addr("10.12.11.50");
+	_host = inet_addr("10.12.11.50");
 	_port = htons(3000);
 	_backlog = 100;
 	for (int i = 1; i < MAXCONNECTS + 1; i++)
@@ -35,6 +35,24 @@ Server& Server::operator=(const Server& src)
 }
 
 // Public member functions
+
+// Setters
+void Server::setName(std::string input)
+{
+	_name = input;
+}
+
+void Server::setHost(std::string input)
+{
+	_host = inet_addr(input.c_str());
+}
+
+void Server::setPort(std::string input)
+{
+	//use strtol and throw exception
+	_port = htons(atoi(input.c_str()));
+}
+
 bool Server::listen()
 {
 	_listeningSocket.bind(_ipAddress, _port);
