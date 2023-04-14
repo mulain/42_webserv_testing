@@ -6,7 +6,7 @@ Server::Server(void)
 {
 	_host = inet_addr("10.12.11.50");
 	_port = htons(3000);
-	_backlog = 100;
+	//_backlog = 100;
 	for (int i = 1; i < MAXCONNECTS + 1; i++)
 		_pollStructs[i].fd = -1;
 	listen();
@@ -53,12 +53,34 @@ void Server::setPort(std::string input)
 	_port = htons(atoi(input.c_str()));
 }
 
+void Server::setClientMaxBody(std::string input)
+{
+	//use strtol and throw exception
+	_clientMaxBody = atoi(input.c_str());
+}
+
+void Server::setGet(bool input)
+{
+	_GET = input;
+}
+
+void Server::setPost(bool input)
+{
+	_POST = input;
+}
+
+void Server::setPost(bool input)
+{
+	_DELETE = input;
+}
+
+
 bool Server::listen()
 {
-	_listeningSocket.bind(_ipAddress, _port);
+	_listeningSocket.bind(_host, _port);
 	_pollStructs[0].fd = _listeningSocket.getSocketFd();
 	_pollStructs[0].events = POLLIN;
-	_listeningSocket.listen(_backlog);
+	//_listeningSocket.listen(_backlog);
 	return true; //just for now. prolly change all bools to throws ?
 }
 

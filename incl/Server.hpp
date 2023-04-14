@@ -56,6 +56,10 @@ class Server
 		void setName(std::string);
 		void setHost(std::string);
 		void setPort(std::string);
+		void setClientMaxBody(std::string);
+		void setGet(bool input)
+
+		void setDirListing(std::string);
 
 		// Actions
 		bool	listen();

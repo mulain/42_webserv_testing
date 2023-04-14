@@ -8,6 +8,17 @@
 #include "Utils.hpp"
 
 #define SERVERNAME	"serverName";
+#define HOST		"host";
+#define PORT		"port";
+#define CLIMAXBODY	"clientMaxBodySize";
+#define GET			"GET";
+#define POST		"POST";
+#define DELETE		"DELETE";
+#define ERRORPAGE	"errorPage";
+#define DIRLISTING	"directoryListing";
+#define ROOT		"root";
+#define DIR			"dir";
+#define UPLOADDIR	"uploadDir";
 
 struct serverConfig //not needed, just directy populate the server
 {
